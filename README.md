@@ -1,8 +1,7 @@
 # screenFetch - The Bash Screenshot Information Tool
 
 <!-- [![GitHub version](https://img.shields.io/github/release/JureCerar/xslib.svg?label=Version&color=blue)](https://github.com/JureCerar/xslib/releases) -->
-![Language](https://img.shields.io/badge/Version-3.9.1-blue.svg)
-![Language](https://img.shields.io/badge/Language-Shell-brightgreen.svg)
+![Version](https://img.shields.io/badge/Version-3.9.1-blue.svg)
 [![License](https://img.shields.io/badge/License-GNU_GPL_v3.0-red.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## What is screenFetch?
@@ -20,6 +19,12 @@ command! This script is very easy to add to and can easily be extended.
 
 ![UL_logo](doc/UL.png)
 
+## Installation
+To install type the following as *root* (or *sudo*):
+```bash
+make install
+```
+**NOTE:** Add `DIR=custom/install/dir` to install to non-standard location. 
 ## Running screenfetch
 
 To run screenFetch, open a terminal of some sort and type in the command `screenfetch`
@@ -81,7 +86,7 @@ sudo systemctl restart sshd
 
 3. Edit `/etc/profile` and at the end add
 ```
-path/to/screenfetch
+path/to/screenfetch [-options]
 cat /etc/motd
 ```
 
