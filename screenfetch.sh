@@ -24,16 +24,20 @@
 
 ##############################################
 
+# Edited by Jure Cerar -- 25.02.2020
+# - esthetic fixes.
+# - FKKT UL is now part of output
+# - Fixed documentation
 # Edited by Jure Cerar -- 11.12.2019
 # - Removed OS logos & added UL logo.
-# - Added `skip_lines` options.
+# - Added `skiplines` options.
 # - More primitive distro detection.
 # - Changed CPU & MEM detection.
 # - Multi GPU detection.
 # - Changed output order.
 # - Removed "bloat" functionality.
 
-scriptVersion="3.9.1"
+scriptVersion="3.9.2"
 
 ######################
 # Settings for fetcher
@@ -69,7 +73,7 @@ display_type="ASCII"
 # Plain logo
 display_logo="no"
 # Skip lines
-skip_lines=5
+skiplines=1
 
 # Verbose Setting - Set to 1 for verbose output.
 verbosity=
@@ -261,7 +265,7 @@ displayVersion () {
 	echo " Modified by Jure Cerar <jure.cerar@fkkt.uni-lj.si>"
 	echo " Original git repo by Brett Bohnenkamper can be found at: https://github.com/KittyKatt/screenFetch"
 	echo ""
-	echo "Copyright (C) 2019 Brett Bohnenkamper, Jure Cerar"
+	echo "Copyright (C) 2019-2020 Brett Bohnenkamper, Jure Cerar"
 	echo " This is free software; See the source for copying conditions. There is NO warranty;"
 	echo " Not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
 }
@@ -572,32 +576,28 @@ asciiText () {
 			  c1='\033[1m' # $(getColor 'white')
 			  c2='\033[1;91m' # $(getColor 'light red')
 			fi
-			startline="0"
-			logowidth="28"
+      startline=0
+			logowidth=25
 			fulloutput=(
-"${c1}                           %s"
-"  Univerza ${c1}v Ljubljani     %s"
-"  Fakulteta za ${c2}kemijo      %s"
-"  ${c2}in kemijsko tehnologijo  %s"
-"${c1}            .            %s"
-"${c1}            │            %s"
-"${c1}     A      M      A     %s"
-"${c1}     ║___ ────\ ___║     %s"
-"${c1}   A/┐┐┐ A ^ ^ A ┐┐┐\A   %s"
-"${c1}   │____┐  /¯\_ ┐____│   %s"
-"${c1}   │┐┐┐┐│ ┐ ╗ ┐ │┐┐┐┐│   %s"
-"${c1}   ¦────┤ ┐ ╗ ┐ ├────¦   %s"
-"${c1}   │¦¦¦¦│ │ ║ │ │¦¦¦¦│   %s"
-"${c1}   └──── ─ ─── ─ ────┘   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s"
-"${c2}   ███████████████████   %s")
+"${c1}            .            ${c0}%s"
+"${c1}            │            ${c0}%s"
+"${c1}     A      M      A     ${c0}%s"
+"${c1}     ║___ ────\ ___║     ${c0}%s"
+"${c1}   A/┐┐┐ A ^ ^ A ┐┐┐\A   ${c0}%s"
+"${c1}   │____┐  /¯\_ ┐____│   ${c0}%s"
+"${c1}   │┐┐┐┐│ ┐ ╗ ┐ │┐┐┐┐│   ${c0}%s"
+"${c1}   ¦────┤ ┐ ╗ ┐ ├────¦   ${c0}%s"
+"${c1}   │¦¦¦¦│ │ ║ │ │¦¦¦¦│   ${c0}%s"
+"${c1}   └──── ─ ─── ─ ────┘   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s"
+"${c2}   ███████████████████   ${c0}%s")
 	;;
   esac
 
@@ -746,16 +746,23 @@ infoDisplay () {
 	# Info Variable Setting #
 	#########################
 
-	# Skip 3 lines
-	# let display_index=$display_index+3
-	for i in $(seq 1 $skip_lines); do
+  # Skip lines
+  for i in $(seq 1 $skiplines); do
 		out_array=( "${out_array[@]}" "" )
 		((display_index++))
 	done
 
+	# FKKT credentials
+  buffer[0]=$(echo -e " Univerza v "'\033[1m'"Ljubljani"'\033[m' )
+  buffer[1]=$(echo -e " Fakulteta "'\033[1;91m'"za kemijo"'\033[m' )
+  buffer[2]=$(echo -e '\033[1;91m'" in kemijsko tehnologijo"'\033[m' )
+  buffer[3]=$(echo -e "" )
+  out_array=( "${out_array[@]}" "${buffer[@]}" )
+  (( display_index+=${#buffer[@]} ))
+
 	# Host
 	if [[ "${display[@]}" =~ "host" ]]; then
-		myinfo=$(echo -e "${labelcolor} ${myUser}$textcolor${bold}@${c0}${labelcolor}${myHost}")
+		myinfo=$(echo -e "${labelcolor} ${myUser}${textcolor}${bold}@${c0}${labelcolor}${myHost}")
 		out_array=( "${out_array[@]}" "$myinfo" )
 		((display_index++))
 	fi
@@ -839,7 +846,6 @@ infoDisplay () {
 	fi
 
 }
-
 
 # CODE TEST
 # mytime test

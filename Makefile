@@ -1,7 +1,7 @@
 # Source and app name
 APP = screenfetch
-DIR := /usr/bin
-SRC = screenfetch-jpc.sh
+DIR := /usr/local/bin
+SRC = screenfetch.sh
 
 # Compiler and install
 INSTALL := install
@@ -9,11 +9,9 @@ INSTALL := install
 # -------------------
 
 default:
-	@echo "-- Binaries will be installed to:" $(DIR)
 
-.PHONY: clean install
+.PHONY: install
 
 install: $(SRC)
+	@echo "-- Binaries will be installed to:" $(DIR)
 	$(INSTALL) $(SRC) $(DIR)/$(APP)
-
-clean:
